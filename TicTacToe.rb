@@ -1,6 +1,6 @@
 
 class Board
-
+#initialise les inputs pour placer les X ou O dans le tableau
 	attr_accessor :a1, :a2, :a3, :b1, :b2 , :b3, :c1, :c2, :c3
 	def initialize(a1, a2, a3, b1, b2, b3, c1, c2, c3)
 		@a1 = a1
@@ -15,6 +15,7 @@ class Board
 	end
 
 	def boardgame
+#creation du board qui est sous forme de array separe par un |
 		p ["   ", "  1 ", " 2  ", " 3 "].join("|")
 		puts "----|----|----|----"
 		p ["A  ", " #{@a1}  ", "  #{@a2} ", " #{@a3}  "].join("|")		
@@ -26,6 +27,7 @@ class Board
 	end
 
 	def combi_w 
+#liste des comninaisons gagnantes stockees forme de arrays
 		[[@a1,@a2,@a3],
 		[@b1,@b2,@b3],
 		[@c1,@c2,@c3],
@@ -37,20 +39,24 @@ class Board
 	end
 	
 	def winner_is 
+#pour chaque valeur de l'array regarder si les combinaisons sont gagnante ou non si les differents items cumules 3 X ou o
 		combi_w.each do |value|
 			if value[0] == "X" && value[1] == "X" && value[2] == "X"
 				puts "Player1 win"
+		
 			elsif value[0] == "O" && value[1] == "O" && value[2] == "O"
 				puts "player2 win"
+				break
 
 			end
 	end
 	end 
 
 	def rules_player1
+
 	puts "Player 1, select a case inside de grid"
-	select_case = gets.chomp.downcase 
-		if select_case == "a1"
+	select_case = gets.chomp.downcase
+		if 	select_case == "a1"
 			@a1 = "X"
 		elsif
 		select_case == "a2"
@@ -74,6 +80,7 @@ class Board
 		elsif
 			select_case == "c3"
 			@c3 = "X"
+	
 		end 
 	end 
 
@@ -142,11 +149,18 @@ class Game
 			break if i >= 6
 			newgame.rules_player2
 			newgame.boardgame 
-		end 
-
+		end 	
+		puts "Game Over!!"
+		puts "Do you want to play again ?(Y/n)"
+		@user_choice = gets.chomp
 	end
 
 startgame = Game.new
 startgame.newplay
-end 
+	until @user_choice.downcase == "n"
+		startgame = Game.new
+		startgame.newplay
+	end
+end
+
 
